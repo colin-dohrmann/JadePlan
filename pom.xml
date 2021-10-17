@@ -1,8 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>de.colind</groupId>
-  <artifactId>PlanGetter</artifactId>
+  <artifactId>JadePlan</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>Stundenplan Getter</name>
-  <description>Holt sich den aktuellen Stundenplan vom Server</description>
+  <name>Stundenplan JadeHS</name>
+  <description>stellt den Stundenplan der JadeHS bereit</description>
 </project>
