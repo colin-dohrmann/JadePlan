@@ -70,17 +70,12 @@ public class Response {
 					canWrite.warning("Anwendung kann nicht schreiben!");
 				}
 				//Daten werden in die Datei geschrieben
-				System.out.println("Datei wurde erzeug: t" + test.exists());
+				System.out.println("Datei wurde erzeugt: " + test.exists());
 				BufferedWriter writer = new BufferedWriter(new FileWriter(test));
 				writer.write(this.planString.toString());
 				writer.close();	
 	}
-	
-	public void buildPlan() {
-		
-	}
 
-	
 	//Getter und Setter
 	public HttpURLConnection getCon() {
 		return con;
