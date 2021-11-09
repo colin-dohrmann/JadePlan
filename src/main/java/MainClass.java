@@ -17,7 +17,7 @@ public class MainClass {
 			e.printStackTrace();
 		}
 		*/
-		File f = new File("D:\\VS Code\\Github\\JadePlan\\src\\test\\resources\\outputFile.html");
+		File f = new File("/Users/dohrmann/Documents/GitHub/JadePlan/src/test/resources/outputFile.html");
 		Stundenplan plan = PlanBuilder.build(f);
 	
 		/*
