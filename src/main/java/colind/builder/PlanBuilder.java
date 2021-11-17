@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
+import colind.search.Search;
 import colind.stundenplan.Stundenplan;
 import colind.stundenplan.Veranstaltung;
 
@@ -30,6 +31,11 @@ public abstract class PlanBuilder {
 	        List<Veranstaltung> veranstaltungen = new LinkedList<Veranstaltung>();
 	        String tag ="Montag";
 	        int dayCounter = 0;
+	        int row = 0;
+	        int colum = 0;
+	        Boolean nextCell = false;
+	        int skipNext = 0;
+	        
 
 	         try {
 	             Scanner scanner = new Scanner(f);
@@ -40,6 +46,9 @@ public abstract class PlanBuilder {
 	             Veranstaltung v = null;
 	             String time = "";
 	             
+	             //Tage-map berechnen
+	             Search search = new Search();
+	             //Boolean[][] b = search.suche(f);
 	             
 	             //Dursucht das Dokument
 	             while(scanner.hasNext()) 
@@ -49,6 +58,7 @@ public abstract class PlanBuilder {
 	                
 	                //Zeit ermitteln
 	                if(s.contains("row-label-one") && !s.contains("td.row-label-one")) {
+	                	dayCounter = 0;
 	                	time = s.substring(s.indexOf("'>") + 2, s.indexOf("</td"));
 	                	if(time.length() <= 4) {
 	                    	time = "0" + time + ":00";
@@ -56,30 +66,58 @@ public abstract class PlanBuilder {
 	                    else {
 	                    	time = time + ":00";
 	                    }
+	                	row++;
+	                	colum = 0;
 	                	
 	                }
-	                //nächster Tag
-	                if( (s.contains("class='object-cell") || s.contains("style=" + "border-right") ) ) {
+	                
+	                //nächste Zelle
+	                if( (s.contains("class=" + "cell-border") ) ) {
 	                	
-	                	if(dayCounter >= 7)
-	                		dayCounter = 0;
+	                	colum++;
+	                	
+	                	//Wenn eine Zelle frei ist
+	                	
+	                	//Gucken ob Tag geskipped werden muss
+	                	//TODO Implementieren Breite der Tage in Columns, we viele Colums hat ein Tag.
+	                	//Damit kann geguckt werden anhand der Column, welcher Tag gerade ist.
+	                	
+	                	/*
+	                	if(b[row-1][colum-1]) {
+	                		skipNext = 1;
+	                		while(b[row-1][colum-1] && colum != 7) {
+	                			skipNext++;
+	                			colum++;
+	                		}
+	                	}
+	                	*/
+	                	
+	                	
+	                	//Wenn der nächste Tag eine Veranstaltung in der Zeile ist, Tag überspringen
+	                	if(skipNext > 0) {
+	                		dayCounter += skipNext;
+	                	}
+	                	
+	                	//Wenn Tageswechsel ansteht
+	                	
+	                	
 	                	switch (dayCounter) {
-						case 1: //Montag
+						case 0: //Montag
 							tag = "Montag";
 							break;
-						case 2: //Dienstag
+						case 1: //Dienstag
 							tag = "Dienstag";
 							break;
-						case 3: //Mittwoch
+						case 2: //Mittwoch
 							tag = "Mittwoch";
 							break;
-						case 4: //Donnerstag
+						case 3: //Donnerstag
 							tag = "Donnerstag";
 							break;
-						case 5: //Freitag
+						case 4: //Freitag
 							tag = "Freitag";
 							break;
-						case 6: //Samstag
+						case 5: //Samstag
 							tag = "Samstag";
 							break;
 							
@@ -87,7 +125,10 @@ public abstract class PlanBuilder {
 							break;
 						}
 	                	
-	                	dayCounter++;
+	                	if(s.contains("border-right")) {
+	                		dayCounter++;
+	                	}
+	                	
 	                }
 	                
 	                //Wenn eine Objekt Zelle gefunden wird

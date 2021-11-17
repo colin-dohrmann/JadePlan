@@ -1,6 +1,8 @@
 import java.io.File;
 import java.util.List;
 import colind.builder.PlanBuilder;
+import colind.builder.TableBuilder;
+import colind.search.Zelle;
 import colind.stundenplan.Stundenplan;
 import colind.stundenplan.Veranstaltung;
 
@@ -18,8 +20,9 @@ public class MainClass {
 		}
 		*/
 		File f = new File("D:\\VS Code\\Github\\JadePlan\\src\\test\\resources\\outputFile.html");
-		Stundenplan plan = PlanBuilder.build(f);
-	
+		//Stundenplan plan = PlanBuilder.build(f);
+		Zelle[][] z = TableBuilder.build(f);
+		
 		/*
 		for (Veranstaltung veranstaltung : liste) {
 			System.out.println(veranstaltung.getName());

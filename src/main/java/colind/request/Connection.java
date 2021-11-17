@@ -47,25 +47,25 @@ public class Connection {
 		
 		//Header bauen Wichtig um eine Connection überhaupt aufzuabeun
 				//TODO Herausfinden welche überhaupt benötigt werden
-						this.con.setRequestProperty("Host", "www.jade-hs.de");
-						this.con.setRequestProperty("Connection", "keep-alive");
-						this.con.setRequestProperty("Content-Length", "109");
-						this.con.setRequestProperty("Cache-Control", "max-age=0");
-						this.con.setRequestProperty("sec-ch-ua", "'Not;A Brand';v='99', 'Opera GX';v='79', 'Chromium';v='93'");
-						this.con.setRequestProperty("sec-ch-ua-mobile", "?0");
-						this.con.setRequestProperty("sec-ch-ua-platform", "'Windows'");
-						this.con.setRequestProperty("Upgrade-Insecure-Requests", "1");
-						this.con.setRequestProperty("Origin", "http://127.0.0.1:5500");
+						//this.con.setRequestProperty("Host", "www.jade-hs.de");
+						//this.con.setRequestProperty("Connection", "keep-alive");
+						//this.con.setRequestProperty("Content-Length", "109");
+						//this.con.setRequestProperty("Cache-Control", "max-age=0");
+						//this.con.setRequestProperty("sec-ch-ua", "'Not;A Brand';v='99', 'Opera GX';v='79', 'Chromium';v='93'");
+						//this.con.setRequestProperty("sec-ch-ua-mobile", "?0");
+						//this.con.setRequestProperty("sec-ch-ua-platform", "'Windows'");
+						//this.con.setRequestProperty("Upgrade-Insecure-Requests", "1");
+						//this.con.setRequestProperty("Origin", "http://127.0.0.1:5500");
 						this.con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-						this.con.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36 OPR/79.0.4143.73");
-						this.con.setRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9 Sec-Fetch-Site: cross-site");
-						this.con.setRequestProperty("Sec-Fetch-Site", "cross-site");
-						this.con.setRequestProperty("Sec-Fetch-Mode", "navigate");
-						this.con.setRequestProperty("Sec-Fetch-User", "?1");
-						this.con.setRequestProperty("Sec-Fetch-Dest", "document");
-						this.con.setRequestProperty("Referer", "http://127.0.0.1:5500/");
-						this.con.setRequestProperty("Accept-Encoding", "gzip, deflate, br");
-						this.con.setRequestProperty("Accept-Language", "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7");
+						//this.con.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36 OPR/79.0.4143.73");
+						//this.con.setRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9 Sec-Fetch-Site: cross-site");
+						//this.con.setRequestProperty("Sec-Fetch-Site", "cross-site");
+						//this.con.setRequestProperty("Sec-Fetch-Mode", "navigate");
+						//this.con.setRequestProperty("Sec-Fetch-User", "?1");
+						//this.con.setRequestProperty("Sec-Fetch-Dest", "document");
+						//this.con.setRequestProperty("Referer", "http://127.0.0.1:5500/");
+						//this.con.setRequestProperty("Accept-Encoding", "gzip, deflate, br");
+						//this.con.setRequestProperty("Accept-Language", "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7");
 				
 
 				//Parameter in die Request schreiben 
