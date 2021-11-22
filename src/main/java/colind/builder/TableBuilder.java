@@ -176,7 +176,7 @@ for(int i = 0; i < table.length; i++) {
 	}// End For e
 } //End For i
 	
-	
+	//TODO Aufräumen
 	
 	System.out.println(breiten);
 	for(Veranstaltung va:veranstaltungen) {
