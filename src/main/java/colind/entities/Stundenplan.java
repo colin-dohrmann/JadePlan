@@ -5,21 +5,23 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import colind.builder.TableBuilder.Days;
+
 public class Stundenplan {
 
 	private final int id;
-	private Map<String, List<Veranstaltung>> Tag;
+	private Map<Days, List<Veranstaltung>> Tag;
 	
 	public Stundenplan() {
 		this.id =  1;
-		this.Tag = new HashMap<String, List<Veranstaltung>>();
+		this.Tag = new HashMap<Days, List<Veranstaltung>>();
 		
-		this.Tag.put("Montag", new LinkedList<Veranstaltung>()); 
-		this.Tag.put("Dienstag", new LinkedList<Veranstaltung>()); 
-		this.Tag.put("Mittwoch", new LinkedList<Veranstaltung>()); 
-		this.Tag.put("Donnerstag", new LinkedList<Veranstaltung>()); 
-		this.Tag.put("Freitag", new LinkedList<Veranstaltung>()); 
-		this.Tag.put("Samstag", new LinkedList<Veranstaltung>()); 
+		this.Tag.put(Days.MONTAG, new LinkedList<Veranstaltung>()); 
+		this.Tag.put(Days.DIENSTAG, new LinkedList<Veranstaltung>()); 
+		this.Tag.put(Days.MITTWOCH, new LinkedList<Veranstaltung>()); 
+		this.Tag.put(Days.DONNERSTAG, new LinkedList<Veranstaltung>()); 
+		this.Tag.put(Days.FREITAG, new LinkedList<Veranstaltung>()); 
+		this.Tag.put(Days.SAMSTAG, new LinkedList<Veranstaltung>()); 
 		
 	}
 	
@@ -35,11 +37,11 @@ public class Stundenplan {
 		}
 	}*/
 	
-	public Map<String, List<Veranstaltung>> getTag() {
+	public Map<Days, List<Veranstaltung>> getTag() {
 		return Tag;
 	}
 //Weg damit
-	public void setTag(Map<String, List<Veranstaltung>> tag) {
+	public void setTag(Map<Days, List<Veranstaltung>> tag) {
 		Tag = tag;
 	}
 
@@ -51,6 +53,12 @@ public class Stundenplan {
 	public List<Veranstaltung> getTag(String tag) {
 		
 		return new LinkedList<Veranstaltung>();
+	}
+	
+	public void addVeranstaltung(Veranstaltung va, Days tag) {
+		List<Veranstaltung> liste = this.Tag.get(tag);
+		liste.add(va);
+		this.Tag.put(tag, liste);
 	}
 	
 }

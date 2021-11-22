@@ -61,74 +61,7 @@ public abstract class TableBuilder {
 	
 	while(scanner.hasNext()) {
 		
-		//Prüfen ob letzte Zeiel eine ObjektZelle war
-		if(!currentOCell)
-		s = scanner.nextLine();
 		
-		//erste Zelle in Zeile -> Tage zurücksetzen, Reihe addieren
-		if(s.contains("row-label-one") && !s.contains("td.")) {
-			currentDay = Days.MONTAG;
-			column = 0;
-			row++;
-			continue;
-		}
-		
-		//Momentane Zelle ermitteln
-		//Vielleicht war ich auch besoffen...
-		if((row > 0 && column > 0) && (s.contains("cell-border") && !s.contains("td."))) {
-			currentCell = table[row - 1][column - 1];
-			System.out.println( "Reihe: " + (row - 1) + " Column: " + (column -1) + "  ObjektZelle: " + currentCell.getObjektZelle());
-		}
-		
-		else
-		currentCell = new Zelle();
-		
-		//Wenn momentane Zelle eine Objektzelle ist
-		if(currentCell.getObjektZelle() && !currentCell.getObjektstartzelle()) {
-			
-			currentOCell = true;
-			//Hier ist ein Fehler
-			column--;
-			//Wenn Montag ist 
-			if(breiten.get(currentDay) == 1) {
-				currentDay = nextDay(currentDay);
-				continue;
-			}
-			else {
-				continue;
-			}
-		}
-
-		
-		if(s.contains("object-cell-border") && !s.contains("td.")) {
-			column++;
-			for(int i = 0; i < Integer.parseInt(s.substring(s.indexOf("rowspan") + 9, s.indexOf(">") -1)); i++) {
-				
-					table[row + i -1][column - 1] = new Zelle(true,currentDay, (i == 0)? true:false);
-			}
-			
-		}
-		
-		
-		
-		//Nächste Zelle
-		else if(s.contains("cell-border") && !s.contains("td.")) {
-			//Da -> Fehler -> Wert aus currentCell holen
-			Boolean oCell = false;
-			Boolean oStartCell = false;
-			column++;
-			
-			//TODO Tag berechnen mit der Breite neue Zelle mit params füllen und 
-			
-			table[row-1][column-1] = new Zelle(oCell,currentDay, oStartCell);
-			
-		}
-		
-		//Ende eines tages
-		if(s.contains("border-right") && s.contains("cell-border")) {
-			nextDay(currentDay);
-			
-		}
 		
 	}
 	
