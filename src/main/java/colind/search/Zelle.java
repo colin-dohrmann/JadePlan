@@ -16,6 +16,11 @@ public class Zelle {
 		this.objektstartzelle = objectStartCell;
 		
 	}
+	public Zelle() {
+		this.objektZelle = false;
+		this.tag = Days.MONTAG;
+		this.objektstartzelle = false;
+	}
 	
 	public Boolean getObjektZelle() {
 		return objektZelle;

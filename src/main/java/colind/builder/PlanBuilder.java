@@ -6,9 +6,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
+import colind.entities.Stundenplan;
+import colind.entities.Veranstaltung;
 import colind.search.Search;
-import colind.stundenplan.Stundenplan;
-import colind.stundenplan.Veranstaltung;
 
 public abstract class PlanBuilder {
 	
@@ -24,7 +24,7 @@ public abstract class PlanBuilder {
 		return stundenplan;
 		
 	}
-	
+	//Alte Implementation vielleicht löschen
 	public static List<Veranstaltung> searchPlan(File f) {
 		
 		StringBuilder builder = new StringBuilder();

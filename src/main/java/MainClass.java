@@ -2,9 +2,9 @@ import java.io.File;
 import java.util.List;
 import colind.builder.PlanBuilder;
 import colind.builder.TableBuilder;
+import colind.entities.Stundenplan;
+import colind.entities.Veranstaltung;
 import colind.search.Zelle;
-import colind.stundenplan.Stundenplan;
-import colind.stundenplan.Veranstaltung;
 
 public class MainClass {
 

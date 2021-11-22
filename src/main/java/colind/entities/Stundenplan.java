@@ -1,4 +1,4 @@
-package colind.stundenplan;
+package colind.entities;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -21,6 +21,17 @@ public class Stundenplan {
 		this.Tag.put("Freitag", new LinkedList<Veranstaltung>()); 
 		this.Tag.put("Samstag", new LinkedList<Veranstaltung>()); 
 		
+	}
+	
+	//Noch implementieren
+	public void addVeranstaltung( Veranstaltung va) {
+		
+	}
+	
+	//Noch implementieren
+	public List<Veranstaltung> getTag(String tag) {
+		
+		return new LinkedList<Veranstaltung>();
 	}
 	
 }

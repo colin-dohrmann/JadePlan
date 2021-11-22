@@ -1,4 +1,4 @@
-package colind.stundenplan;
+package colind.entities;
 
 import java.sql.Time;
 

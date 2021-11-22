@@ -37,7 +37,7 @@ public abstract class TableBuilder {
 	Zelle[][] table  = new Search().suche(f);
 
 	
-	
+	/*
 	//Reihen
 	for(int i = 0; i < table.length;i++) {
 		
@@ -46,14 +46,18 @@ public abstract class TableBuilder {
 			
 		}
 	}
-	
+	*/
 	Map<String, Integer> breiten = getWidth(f);
 	Days currentDay = Days.MONTAG;
 	Zelle currentCell;
+	System.out.println("Reihen: " + table.length);
+	System.out.println("Spalten: " + table[0].length);
+	
 	while(scanner.hasNext()) {
+		s = scanner.nextLine();
 		
 		//erste Zelle in Zeile -> Tage zurücksetzen, Reihe addieren
-		if(s.contains("row-label-one")) {
+		if(s.contains("row-label-one") && !s.contains("td.")) {
 			currentDay = Days.MONTAG;
 			column = 0;
 			row++;
@@ -62,39 +66,43 @@ public abstract class TableBuilder {
 		
 		
 		
-		if(s.contains("object-cell-border")) {
+		if(s.contains("object-cell-border") && !s.contains("td.")) {
 			column++;
 			for(int i = 0; i < Integer.parseInt(s.substring(s.indexOf("rowspan") + 9, s.indexOf(">") -1)); i++) {
 				
-				table[row-1][column + i -1] = new Zelle(true,currentDay, (i == 0)? true:false);
+					table[row + i -1][column - 1] = new Zelle(true,currentDay, (i == 0)? true:false);
 			}
 			
 		}
 		
 		//Nächste Zelle
-		else if(s.contains("cell-border")) {
+		else if(s.contains("cell-border") && !s.contains("td.")) {
 			Boolean oCell = false;
 			Boolean oStartCell = false;
 			column++;
 			
 			//TODO Tag berechnen mit der Breite neue Zelle mit params füllen und 
 			
-			
 			table[row-1][column-1] = new Zelle(oCell,currentDay, oStartCell);
+			
 		}
 		
 		//Ende eines tages
 		if(s.contains("border-right") && s.contains("cell-border")) {
-			
+			nextDay(currentDay);
 		}
 		
+		if(row > 0 && column > 0)
 		currentCell = table[row-1][column-1];
-		System.out.println("Test");
+		else
+		currentCell = new Zelle();
+		
 		
 		//Wenn momentane Zelle eine Objektzelle ist
-		if(currentCell.getObjektZelle()) {
+		if(currentCell.getObjektZelle() && !currentCell.getObjektstartzelle()) {
+			column--;
 			//Wenn Montag ist 
-			if(breiten.get(currentDay) == 1) {
+			if(currentDay == Days.MONTAG && breiten.get("Montag") == 1) {
 				currentDay = nextDay(currentDay);
 				continue;
 			}
@@ -105,7 +113,13 @@ public abstract class TableBuilder {
 	}
 	
 	
-	
+	for(int i = 0; i < table.length;i++) {
+		
+		for(int e = 0; e < table[0].length;e++) {
+			System.out.println(table[i][e]);
+		}
+		
+	}
 	return table;
 	}
 	
