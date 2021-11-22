@@ -2,6 +2,7 @@ package colind.builder;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.sql.Time;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -21,10 +22,12 @@ public abstract class TableBuilder {
 	public static Zelle[][] build(File f) {
 		//TODO aus der Datei ein Array[][] aus einzelnen Zellen machen
 		
-		int row = 0;
+		int row = -1;
 		int column = 0;
 		Scanner scanner = null;
 		String s = "";
+		String last = "";
+		String time = "";
 
 		
 		
@@ -49,38 +52,147 @@ public abstract class TableBuilder {
 		}
 	}
 	*/
-	Map<String, Integer> breiten = getWidth(f);
+	Map<Days, Integer> breiten = getWidth(f);
 	Days currentDay = Days.MONTAG;
 	Zelle currentCell = new Zelle();
-	Boolean currentOCell = false;
+	Boolean nextOCell = false;
 	System.out.println("Reihen: " + table.length);
 	System.out.println("Spalten: " + table[0].length);
 	
 	//nur zum Test
 	List<Veranstaltung> veranstaltungen = new LinkedList<Veranstaltung>();
 	
-	while(scanner.hasNext()) {
-		
-		
-		
+	for(int i = 0; i < table.length; i++) {
+		for(int e = 0; e < table[e].length; e++) {
+			table[i][e] = new Zelle();
+		}
 	}
 	
 	
-	for(int i = 0; i < table.length;i++) {
+for(int i = 0; i < table.length; i++) {
+	
+	row++; //Reihe startet bei 0
+	column = 0; // Column startet bei 1
+	//TODO currentTime einbauen
+	for(int e = 0; e < table[0].length; e++) {
+		//Momentane Zelle ist:
+		currentCell = table[i][e];
 		
-		for(int e = 0; e < table[0].length;e++) {
-			System.out.println(table[i][e]);
+		//bestimmen welcher Tag ist
+		if(e < breiten.get(Days.MONTAG)) {
+			currentDay = Days.MONTAG;
+		}
+		else if(e < breiten.get(Days.MONTAG) + breiten.get(Days.DIENSTAG)) {
+			currentDay = Days.DIENSTAG;
+		}
+		else if(e < breiten.get(Days.MONTAG) + breiten.get(Days.DIENSTAG) + breiten.get(Days.MITTWOCH)) {
+			currentDay = Days.MITTWOCH;
+		}
+		else if(e < breiten.get(Days.MONTAG) + breiten.get(Days.DIENSTAG) + breiten.get(Days.MITTWOCH) + breiten.get(Days.DONNERSTAG)) {
+			currentDay = Days.DONNERSTAG;
+		}
+		else if(e < breiten.get(Days.MONTAG) + breiten.get(Days.DIENSTAG) + breiten.get(Days.MITTWOCH) + breiten.get(Days.DONNERSTAG)
+				+ breiten.get(Days.FREITAG)) {
+			currentDay = Days.FREITAG;
+		}
+		else if(e < breiten.get(Days.MONTAG) + breiten.get(Days.DIENSTAG) + breiten.get(Days.MITTWOCH) + breiten.get(Days.DONNERSTAG)
+				+ breiten.get(Days.FREITAG) + breiten.get(Days.SAMSTAG)) {
+			currentDay = Days.SAMSTAG;
 		}
 		
-	}
+		//Wenn jetzige Zelle ein Objekt beinhaltet
+		if(currentCell.getObjektZelle()) {
+			//skip
+			continue;
+		}
+		else {
+			
+			while( (!s.contains("cell-border")  && scanner.hasNext()) || s.contains("td.")) {
+				s = scanner.nextLine();
+				
+				  //Zeit ermitteln
+                if(s.contains("row-label-one") && !s.contains("td.row-label-one")) {
+                	time = s.substring(s.indexOf("'>") + 2, s.indexOf("</td"));
+                	if(time.length() <= 4) {
+                    	time = "0" + time + ":00";
+                    }
+                    else {
+                    	time = time + ":00";
+                    }
+                	
+                }
+				
+				
+			} //End While
+			//Wenn s als nächstes ein Objektstart hat
+			if(s.contains("object-cell-border")) {
+
+				System.out.println("Objekt gefunden");
+				
+				//Schleife zum schreiben der Objektzellen
+				for(int f1 = 0; f1 < Integer.parseInt(s.substring(s.indexOf("rowspan") + 9, s.indexOf(">") -1)); f1++) {
+					
+					table[i + f1][e ] = new Zelle(true,currentDay, (f1 == 0)? true:false);
+				}//End For
+				
+				int counter = 0;
+				Veranstaltung va = new Veranstaltung();
+				va.setTag(currentDay);
+				va.setBeginn(Time.valueOf(time));
+				//Inner Object
+				while(!s.contains("<!-- END OBJECT-CELL -->")) {
+					s = scanner.nextLine();
+					if(s.contains("<td align='center'>")) {
+						String wert = s.substring(s.indexOf("'>") + 2, s.indexOf("</"));
+						if(wert == "Datenkommunikation")
+							System.out.println("Test");
+						switch (counter) {
+						case 0:
+							va.setName(wert);
+							break;
+						case 1:
+							va.setDozent(wert);
+							break;
+						case 2:
+							va.setRaum(wert);
+							break;
+							
+						default:
+							break;
+						}
+						
+						counter++;
+						
+					} // End If
+				} // End while inner Object Cell
+				veranstaltungen.add(va);
+			}//End If o-c-b
+			else {
+				table[i][e].setTag(currentDay);
+			}
+			if(scanner.hasNext())
+				s = scanner.nextLine();
+		}//End Else
+	}// End For e
+} //End For i
+	
+	
 	
 	System.out.println(breiten);
+	for(Veranstaltung va:veranstaltungen) {
+		System.out.println("<------------------------------------>");
+		System.out.println(va.getName());
+		System.out.println(va.getDozent());
+		System.out.println(va.getRaum());
+		System.out.println(va.getBeginn());
+		System.out.println(va.getTag());
+	}
 	return table;
 	}
 	
 	//Breite der tage wird berechnet und als Map zurückgegeben
-	public static Map<String, Integer> getWidth(File f){
-		Map<String, Integer> width = new HashMap<String, Integer>();
+	public static Map<Days, Integer> getWidth(File f){
+		Map<Days, Integer> width = new HashMap<Days, Integer>();
 		List<Integer> breiten = new LinkedList<Integer>();
 		try {
 			Scanner scann = new Scanner(f);
@@ -104,16 +216,17 @@ public abstract class TableBuilder {
 			e.printStackTrace();
 		}
 		
-		width.put("Montag", breiten.get(0));
-		width.put("Dienstag", breiten.get(1));
-		width.put("Mittwoch", breiten.get(2));
-		width.put("Donnerstag", breiten.get(3));
-		width.put("Freitag", breiten.get(4));
-		width.put("Samstag", breiten.get(5));
+		width.put(Days.MONTAG, breiten.get(0));
+		width.put(Days.DIENSTAG, breiten.get(1));
+		width.put(Days.MITTWOCH, breiten.get(2));
+		width.put(Days.DONNERSTAG, breiten.get(3));
+		width.put(Days.FREITAG, breiten.get(4));
+		width.put(Days.SAMSTAG, breiten.get(5));
 		return width;
 	}
 	
 	//Sets the day to the next Day
+	//Wohl egal 
 	public static Days nextDay(Days currentDay) {
 		Days nextDay;
 		switch (currentDay) {

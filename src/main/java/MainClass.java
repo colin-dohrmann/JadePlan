@@ -1,6 +1,5 @@
 import java.io.File;
 import java.util.List;
-import colind.builder.PlanBuilder;
 import colind.builder.TableBuilder;
 import colind.entities.Stundenplan;
 import colind.entities.Veranstaltung;

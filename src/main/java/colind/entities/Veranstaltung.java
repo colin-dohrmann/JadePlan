@@ -2,7 +2,8 @@ package colind.entities;
 
 import java.sql.Time;
 
-import colind.builder.PlanBuilder;
+import colind.builder.TableBuilder.Days;
+
 
 public class Veranstaltung {
 
@@ -11,10 +12,10 @@ public class Veranstaltung {
 	private String raum;
 	private int dauer;
 	private Time beginn;
-	private String tag;
+	private Days tag;
 	
 	//Überladener Konstruktor
-	public Veranstaltung(String name, String dozent, String raum, int dauer, String beginn, String tag) {
+	public Veranstaltung(String name, String dozent, String raum, int dauer, String beginn, Days tag) {
 		this.name = name;
 		this.dozent = dozent;
 		this.raum = raum;
@@ -75,11 +76,11 @@ public class Veranstaltung {
 		this.beginn = beginn;
 	}
 
-	public String getTag() {
+	public Days getTag() {
 		return tag;
 	}
 
-	public void setTag(String tag) {
-		this.tag = tag;
+	public void setTag(Days currentDay) {
+		this.tag = currentDay;
 	}
 }
