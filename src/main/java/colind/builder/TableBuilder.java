@@ -8,10 +8,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import colind.entities.Veranstaltung;
 import colind.search.Search;
 import colind.search.Zelle;
 
-
+//Klasse baut den Stundenplan aus der HTTP Response
+//Warum auch immer ich die abstract gemacht habe...
 public abstract class TableBuilder {
 
 	public enum Days {MONTAG, DIENSTAG, MITTWOCH, DONNERSTAG, FREITAG, SAMSTAG};
@@ -49,11 +51,18 @@ public abstract class TableBuilder {
 	*/
 	Map<String, Integer> breiten = getWidth(f);
 	Days currentDay = Days.MONTAG;
-	Zelle currentCell;
+	Zelle currentCell = new Zelle();
+	Boolean currentOCell = false;
 	System.out.println("Reihen: " + table.length);
 	System.out.println("Spalten: " + table[0].length);
 	
+	//nur zum Test
+	List<Veranstaltung> veranstaltungen = new LinkedList<Veranstaltung>();
+	
 	while(scanner.hasNext()) {
+		
+		//Prüfen ob letzte Zeiel eine ObjektZelle war
+		if(!currentOCell)
 		s = scanner.nextLine();
 		
 		//erste Zelle in Zeile -> Tage zurücksetzen, Reihe addieren
@@ -64,7 +73,32 @@ public abstract class TableBuilder {
 			continue;
 		}
 		
+		//Momentane Zelle ermitteln
+		//Vielleicht war ich auch besoffen...
+		if((row > 0 && column > 0) && (s.contains("cell-border") && !s.contains("td."))) {
+			currentCell = table[row - 1][column - 1];
+			System.out.println( "Reihe: " + (row - 1) + " Column: " + (column -1) + "  ObjektZelle: " + currentCell.getObjektZelle());
+		}
 		
+		else
+		currentCell = new Zelle();
+		
+		//Wenn momentane Zelle eine Objektzelle ist
+		if(currentCell.getObjektZelle() && !currentCell.getObjektstartzelle()) {
+			
+			currentOCell = true;
+			//Hier ist ein Fehler
+			column--;
+			//Wenn Montag ist 
+			if(breiten.get(currentDay) == 1) {
+				currentDay = nextDay(currentDay);
+				continue;
+			}
+			else {
+				continue;
+			}
+		}
+
 		
 		if(s.contains("object-cell-border") && !s.contains("td.")) {
 			column++;
@@ -75,8 +109,11 @@ public abstract class TableBuilder {
 			
 		}
 		
+		
+		
 		//Nächste Zelle
 		else if(s.contains("cell-border") && !s.contains("td.")) {
+			//Da -> Fehler -> Wert aus currentCell holen
 			Boolean oCell = false;
 			Boolean oStartCell = false;
 			column++;
@@ -90,26 +127,9 @@ public abstract class TableBuilder {
 		//Ende eines tages
 		if(s.contains("border-right") && s.contains("cell-border")) {
 			nextDay(currentDay);
+			
 		}
 		
-		if(row > 0 && column > 0)
-		currentCell = table[row-1][column-1];
-		else
-		currentCell = new Zelle();
-		
-		
-		//Wenn momentane Zelle eine Objektzelle ist
-		if(currentCell.getObjektZelle() && !currentCell.getObjektstartzelle()) {
-			column--;
-			//Wenn Montag ist 
-			if(currentDay == Days.MONTAG && breiten.get("Montag") == 1) {
-				currentDay = nextDay(currentDay);
-				continue;
-			}
-			else {
-				continue;
-			}
-		}
 	}
 	
 	
@@ -120,6 +140,8 @@ public abstract class TableBuilder {
 		}
 		
 	}
+	
+	System.out.println(breiten);
 	return table;
 	}
 	
@@ -189,4 +211,13 @@ public abstract class TableBuilder {
 	return nextDay;
 	}
 	
+	public static void consoleLog(Zelle[][] table) {
+		for(int i = 0; i < table.length; i++ ) {
+			for(int e = 0; e < table[0].length; e++){
+				if(table[i][e].getObjektstartzelle()) {
+					System.out.println();
+				}
+			}
+		}
+	}
 }

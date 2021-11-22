@@ -24,10 +24,29 @@ public class Stundenplan {
 	}
 	
 	//Noch implementieren
-	public void addVeranstaltung( Veranstaltung va) {
-		
-	}
+/*	public void addVeranstaltung( Veranstaltung va) {
+		switch (va.getTag()) {
+		case value:
+			
+			break;
+
+		default:
+			break;
+		}
+	}*/
 	
+	public Map<String, List<Veranstaltung>> getTag() {
+		return Tag;
+	}
+//Weg damit
+	public void setTag(Map<String, List<Veranstaltung>> tag) {
+		Tag = tag;
+	}
+
+	public int getId() {
+		return id;
+	}
+
 	//Noch implementieren
 	public List<Veranstaltung> getTag(String tag) {
 		
