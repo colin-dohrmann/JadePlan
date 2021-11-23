@@ -64,7 +64,7 @@ public class Connection {
 						//this.con.setRequestProperty("Sec-Fetch-User", "?1");
 						//this.con.setRequestProperty("Sec-Fetch-Dest", "document");
 						//this.con.setRequestProperty("Referer", "http://127.0.0.1:5500/");
-						//this.con.setRequestProperty("Accept-Encoding", "gzip, deflate, br");
+						this.con.setRequestProperty("Accept-Encoding", "gzip, deflate, br");
 						//this.con.setRequestProperty("Accept-Language", "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7");
 				
 

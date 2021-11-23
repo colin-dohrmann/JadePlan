@@ -110,19 +110,25 @@ for(int i = 0; i < table.length; i++) {
 			//Wenn s als nächstes ein Objektstart hat
 			if(s.contains("object-cell-border")) {
 
+				//Dauer ermitteln und richtig formatieren
+				String rowspan = s.substring(s.indexOf("rowspan") + 9, s.indexOf(">") -1);
+				rowspan = rowspan.replaceAll("[^\\d]", "");
+	
 				//Schleife zum schreiben der Objektzellen
-				for(int f1 = 0; f1 < Integer.parseInt(s.substring(s.indexOf("rowspan") + 9, s.indexOf(">") -1)); f1++) {
+				for(int f1 = 0; f1 < Integer.parseInt(rowspan); f1++) {
 					
 					table[i + f1][e ] = new Zelle(true,currentDay, (f1 == 0)? true:false);
 				}//End For
-				int dauer = Integer.parseInt(s.substring(s.indexOf("rowspan") + 9, s.indexOf(">") -1));
+				int dauer = Integer.parseInt(rowspan);
 				int counter = 0;
+				
+				//veranstaltung erstellen
 				Veranstaltung va = new Veranstaltung();
 				va.setDauer(dauer);
 				va.setTag(currentDay);
 				va.setBeginn(Time.valueOf(time));
 				
-				//Inner Object
+				//Solange der Scanner im Objekt ist
 				while(!s.contains("<!-- END OBJECT-CELL -->")) {
 					s = scanner.nextLine();
 					if(s.contains("<td align='center'>")) {
@@ -189,7 +195,7 @@ for(int i = 0; i < table.length; i++) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		//Tage einpflegen
 		width.put(Days.MONTAG, breiten.get(0));
 		width.put(Days.DIENSTAG, breiten.get(1));
 		width.put(Days.MITTWOCH, breiten.get(2));

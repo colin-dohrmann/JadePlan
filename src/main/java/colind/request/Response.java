@@ -6,7 +6,13 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Writer;
 import java.net.HttpURLConnection;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
@@ -15,7 +21,7 @@ public class Response {
 
 	private HttpURLConnection con;
 	private StringBuilder planString;
-	
+	private List<String> liste = new LinkedList<String>();
 	public Response(HttpURLConnection con) throws IOException {
 		this.con = con;
 		
@@ -38,10 +44,11 @@ public class Response {
 		
 		//jede Zeile wird aus dem BufferedReader gelesen, in ein String zwischengespeichert und an den StringBuilder angehängt bis
 		//keine Zeile mehr vorhanden ist
+		
 		try {
 			while((readed = in.readLine()) != null) {
 				builder.append(readed);
-				
+				liste.add(readed);
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -51,29 +58,45 @@ public class Response {
 		//Builder wird in String gewandelt und ausgegeben
 		System.out.println(builder.toString());
 		
+		
 		this.planString = builder;
 	}
 	
-	public void buildFile() throws IOException {
+	public File buildFile() throws IOException {
 		//In File Schreiben
-				File test = new File("src/test/resources/outputFile.html");
-				test.createNewFile();
-				Boolean b = test.canWrite();
+				String path = "src/test/resources/outputFile.html";
+				File output = new File("src/test/resources/outputFile.html");
+				output.createNewFile();
+				Boolean b = output.canWrite();
 				
 				//Logger
 				Logger canWrite = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 				canWrite.setLevel(Level.ALL);
-				if(test.canWrite()) {
+				if(output.canWrite()) {
 					canWrite.info("Anwendung kann schreiben");
 				}
 				else {
 					canWrite.warning("Anwendung kann nicht schreiben!");
 				}
+				
 				//Daten werden in die Datei geschrieben
-				System.out.println("Datei wurde erzeugt: " + test.exists());
-				BufferedWriter writer = new BufferedWriter(new FileWriter(test));
-				writer.write(this.planString.toString());
+				System.out.println("Datei wurde erzeugt: " + output.exists());
+				BufferedWriter writer = new BufferedWriter(new FileWriter(output));
+				
+				//Datei schreiben Zeile für Zeile und leere Zeilen ausschließen
+				for(String line:liste) {
+					if(line.trim().length() > 0) {
+						writer.write(line);
+						writer.newLine();
+					}
+						
+					
+				}
 				writer.close();	
+				
+				
+			
+				return output;
 	}
 
 	//Getter und Setter
