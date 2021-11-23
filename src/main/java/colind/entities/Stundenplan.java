@@ -25,24 +25,9 @@ public class Stundenplan {
 		
 	}
 	
-	//Noch implementieren
-/*	public void addVeranstaltung( Veranstaltung va) {
-		switch (va.getTag()) {
-		case value:
-			
-			break;
-
-		default:
-			break;
-		}
-	}*/
 	
 	public Map<Days, List<Veranstaltung>> getTag() {
 		return Tag;
-	}
-//Weg damit
-	public void setTag(Map<Days, List<Veranstaltung>> tag) {
-		Tag = tag;
 	}
 
 	public int getId() {
@@ -59,6 +44,63 @@ public class Stundenplan {
 		List<Veranstaltung> liste = this.Tag.get(tag);
 		liste.add(va);
 		this.Tag.put(tag, liste);
+	}
+	
+	public void print() {
+		System.out.println("----------MONTAG----------");
+		for(Veranstaltung v : this.Tag.get(Days.MONTAG)) {
+			System.out.println("<------------------------------->");
+			System.out.println(v.getName());
+			System.out.println(v.getDozent());
+			System.out.println(v.getRaum());
+			System.out.println(v.getBeginn());
+			System.out.println(v.getDauer());
+		}
+		System.out.println("----------DIENSTAG----------");
+		for(Veranstaltung v : this.Tag.get(Days.DIENSTAG)) {
+			System.out.println("<------------------------------->");
+			System.out.println(v.getName());
+			System.out.println(v.getDozent());
+			System.out.println(v.getRaum());
+			System.out.println(v.getBeginn());
+			System.out.println(v.getDauer());
+		}
+		System.out.println("----------MITTWOCH----------");
+		for(Veranstaltung v : this.Tag.get(Days.MITTWOCH)) {
+			System.out.println("<------------------------------->");
+			System.out.println(v.getName());
+			System.out.println(v.getDozent());
+			System.out.println(v.getRaum());
+			System.out.println(v.getBeginn());
+			System.out.println(v.getDauer());
+		}
+		System.out.println("----------DONNERSTAG----------");
+		for(Veranstaltung v : this.Tag.get(Days.DONNERSTAG)) {
+			System.out.println("<------------------------------->");
+			System.out.println(v.getName());
+			System.out.println(v.getDozent());
+			System.out.println(v.getRaum());
+			System.out.println(v.getBeginn());
+			System.out.println(v.getDauer());
+		}
+		System.out.println("----------FREITAG----------");
+		for(Veranstaltung v : this.Tag.get(Days.FREITAG)) {
+			System.out.println("<------------------------------->");
+			System.out.println(v.getName());
+			System.out.println(v.getDozent());
+			System.out.println(v.getRaum());
+			System.out.println(v.getBeginn());
+			System.out.println(v.getDauer());
+		}
+		System.out.println("----------SAMSTAG----------");
+		for(Veranstaltung v : this.Tag.get(Days.SAMSTAG)) {
+			System.out.println("<------------------------------->");
+			System.out.println(v.getName());
+			System.out.println(v.getDozent());
+			System.out.println(v.getRaum());
+			System.out.println(v.getBeginn());
+			System.out.println(v.getDauer());
+		}
 	}
 	
 }

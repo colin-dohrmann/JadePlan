@@ -10,6 +10,7 @@ public class Veranstaltung {
 	private String name;
 	private String dozent;
 	private String raum;
+	//Dauer = (int) dauer * 15min
 	private int dauer;
 	private Time beginn;
 	private Days tag;

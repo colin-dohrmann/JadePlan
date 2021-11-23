@@ -19,11 +19,9 @@ public abstract class TableBuilder {
 
 	public enum Days {MONTAG, DIENSTAG, MITTWOCH, DONNERSTAG, FREITAG, SAMSTAG};
 	
-	public static Zelle[][] build(File f) {
-		//TODO aus der Datei ein Array[][] aus einzelnen Zellen machen
+	public static List<Veranstaltung> build(File f) {
 		
-		int row = -1;
-		int column = 0;
+
 		Scanner scanner = null;
 		String s = "";
 		String last = "";
@@ -42,24 +40,11 @@ public abstract class TableBuilder {
 	Zelle[][] table  = new Search().suche(f);
 
 	
-	/*
-	//Reihen
-	for(int i = 0; i < table.length;i++) {
-		
-		//Spalten
-		for(int e = 0; e < table[i].length; e++) {
-			
-		}
-	}
-	*/
 	Map<Days, Integer> breiten = getWidth(f);
 	Days currentDay = Days.MONTAG;
 	Zelle currentCell = new Zelle();
-	Boolean nextOCell = false;
-	System.out.println("Reihen: " + table.length);
-	System.out.println("Spalten: " + table[0].length);
 	
-	//nur zum Test
+	//Liste mit Veranstaltungen in dem Stundenlan, die zurückgegeben werden
 	List<Veranstaltung> veranstaltungen = new LinkedList<Veranstaltung>();
 	
 	for(int i = 0; i < table.length; i++) {
@@ -71,9 +56,7 @@ public abstract class TableBuilder {
 	
 for(int i = 0; i < table.length; i++) {
 	
-	row++; //Reihe startet bei 0
-	column = 0; // Column startet bei 1
-	//TODO currentTime einbauen
+
 	for(int e = 0; e < table[0].length; e++) {
 		//Momentane Zelle ist:
 		currentCell = table[i][e];
@@ -127,25 +110,24 @@ for(int i = 0; i < table.length; i++) {
 			//Wenn s als nächstes ein Objektstart hat
 			if(s.contains("object-cell-border")) {
 
-				System.out.println("Objekt gefunden");
-				
 				//Schleife zum schreiben der Objektzellen
 				for(int f1 = 0; f1 < Integer.parseInt(s.substring(s.indexOf("rowspan") + 9, s.indexOf(">") -1)); f1++) {
 					
 					table[i + f1][e ] = new Zelle(true,currentDay, (f1 == 0)? true:false);
 				}//End For
-				
+				int dauer = Integer.parseInt(s.substring(s.indexOf("rowspan") + 9, s.indexOf(">") -1));
 				int counter = 0;
 				Veranstaltung va = new Veranstaltung();
+				va.setDauer(dauer);
 				va.setTag(currentDay);
 				va.setBeginn(Time.valueOf(time));
+				
 				//Inner Object
 				while(!s.contains("<!-- END OBJECT-CELL -->")) {
 					s = scanner.nextLine();
 					if(s.contains("<td align='center'>")) {
 						String wert = s.substring(s.indexOf("'>") + 2, s.indexOf("</"));
-						if(wert == "Datenkommunikation")
-							System.out.println("Test");
+
 						switch (counter) {
 						case 0:
 							va.setName(wert);
@@ -177,17 +159,8 @@ for(int i = 0; i < table.length; i++) {
 } //End For i
 	
 	//TODO Aufräumen
-	
-	System.out.println(breiten);
-	for(Veranstaltung va:veranstaltungen) {
-		System.out.println("<------------------------------------>");
-		System.out.println(va.getName());
-		System.out.println(va.getDozent());
-		System.out.println(va.getRaum());
-		System.out.println(va.getBeginn());
-		System.out.println(va.getTag());
-	}
-	return table;
+
+	return veranstaltungen;
 	}
 	
 	//Breite der tage wird berechnet und als Map zurückgegeben
@@ -211,6 +184,7 @@ for(int i = 0; i < table.length; i++) {
 					}
 				}
 			}
+			scann.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
