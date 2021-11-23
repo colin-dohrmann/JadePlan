@@ -20,7 +20,6 @@ import java.util.zip.GZIPInputStream;
 public class Response {
 
 	private HttpURLConnection con;
-	private StringBuilder planString;
 	private List<String> liste = new LinkedList<String>();
 	public Response(HttpURLConnection con) throws IOException {
 		this.con = con;
@@ -40,26 +39,21 @@ public class Response {
 		
 		//Daten werden in StringBuilder geschrieben, da das schreiben per .append() schneller ist als mit einem normalenS tring
 		String readed;
-		StringBuilder builder = new StringBuilder();
 		
 		//jede Zeile wird aus dem BufferedReader gelesen, in ein String zwischengespeichert und an den StringBuilder angehängt bis
 		//keine Zeile mehr vorhanden ist
 		
 		try {
 			while((readed = in.readLine()) != null) {
-				builder.append(readed);
+
 				liste.add(readed);
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//System.out.println(readed);
-		//Builder wird in String gewandelt und ausgegeben
-		System.out.println(builder.toString());
 		
-		
-		this.planString = builder;
+
 	}
 	
 	public File buildFile() throws IOException {
@@ -80,7 +74,6 @@ public class Response {
 				}
 				
 				//Daten werden in die Datei geschrieben
-				System.out.println("Datei wurde erzeugt: " + output.exists());
 				BufferedWriter writer = new BufferedWriter(new FileWriter(output));
 				
 				//Datei schreiben Zeile für Zeile und leere Zeilen ausschließen
@@ -108,15 +101,5 @@ public class Response {
 		this.con = con;
 	}
 
-	public StringBuilder getPlanString() {
-		return planString;
-	}
-
-	public void setPlanString(StringBuilder planString) {
-		this.planString = planString;
-	}
-
-	
-	
 	
 }
