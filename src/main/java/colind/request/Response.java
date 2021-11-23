@@ -21,6 +21,7 @@ public class Response {
 
 	private HttpURLConnection con;
 	private List<String> liste = new LinkedList<String>();
+	private final String PATH = "src/main/resources/outputFile.html";
 	public Response(HttpURLConnection con) throws IOException {
 		this.con = con;
 		
@@ -58,8 +59,8 @@ public class Response {
 	
 	public File buildFile() throws IOException {
 		//In File Schreiben
-				String path = "src/test/resources/outputFile.html";
-				File output = new File("src/test/resources/outputFile.html");
+				
+				File output = new File(PATH);
 				output.createNewFile();
 				Boolean b = output.canWrite();
 				

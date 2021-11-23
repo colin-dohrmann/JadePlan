@@ -13,8 +13,8 @@ public class Connection {
 
 	private final String locationURL = "https://www.jade-hs.de/apps/infosys/splan.php";
 	private HttpURLConnection con;
-	private String studiengang = "MIT WInf1";
-	private int kw = 1;
+	private String studiengang = "MIT WIng1";
+	private int kw = 45;
 	
 	
 	public Connection(String locationURL) throws IOException {
